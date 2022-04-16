@@ -1,23 +1,44 @@
-const express = require('express');
-const port = 5000;
+const express=require("express")
 
-const app = express();
-
-
-// Routes
-app.get('/', (req, res) => {
-  res.send('Beautiful homepage');
-});
-app.get('/hello', (req, res) => {
-    res.send('Hello world!');
-});
-app.get('/hola', (req, res) => {
-    res.send('Hola todos !');
-});
-app.get('/hola/football',(req,res)=>{
-    res.send('football')
+const app=express()
+const port=3000
+var authors = [
+    {
+        name: "Lawrence Nowell",
+        nationality: "UK",
+        books: ["Beowulf"]
+    },
+    {
+        name: "William Shakespeare",
+        nationality: "UK",
+        books: ["Hamlet", "Othello", "Romeo and Juliet", "MacBeth"]
+    },
+    {
+        name: "Charles Dickens",
+        nationality: "US",
+        books: ["Oliver Twist", "A Christmas Carol"]
+    },
+    {
+        name: "Oscar Wilde",
+        nationality: "UK",
+        books: ["The Picture of Dorian Gray", "The Importance of Being Earnest"]
+    },
+]
+app.listen(port,()=>{
+    console.log('server started on port:'+port);
 })
-
-// Run server
-app.listen(port, () => {
-});
+app.get('/',(req,res)=>{
+    res.send('Authors API')
+})
+app.get('/authors/:id/',(req,res)=>{
+    res.send(authors[req.params.id].name+" , "+authors[req.params.id].nationality)
+})
+app.get('/authors/:id/books',(req,res)=>{
+    res.send(authors[req.params.id].books.toString())
+})
+app.get('/json/authors/:id',(req,res)=>{
+    res.send({
+        name:authors[req.params.id].name,
+        nationality:authors[req.params.id].nationality
+    })
+})
